@@ -1,4 +1,5 @@
 ﻿using Moq;
+using System;
 using Xunit;
 using XUnitTestProject.APP;
 
@@ -38,11 +39,23 @@ namespace XUnitTestProject.Test
         [InlineData(2, 5, 10)]
         [InlineData(4, 4, 16)]
         [InlineData(4, 0, 0)]
+        [InlineData(4, -1, -4)]
         public void Multiple_SimpleValues_ReturnsMultiple(int a, int b, int expected)
         {
             _repository.Setup(x => x.Multiple(a, b)).Returns(expected);
             var actual = _calculator.Multiple(a, b);
             Assert.Equal(expected, actual);
+        }
+
+        [Theory]
+        [InlineData(0, 10)]
+        [InlineData(0, 0)]
+        public void Multiple_ZeroValue_ReturnsException(int a, int b)
+        {
+            _repository.Setup(x => x.Multiple(a, b)).Throws(new Exception("first value cannot be zero"));
+            var actualException = Assert.Throws<Exception>(() => _calculator.Multiple(a, b));
+
+            Assert.Equal("first value cannot be zero", actualException.Message);
         }
     }
 }
