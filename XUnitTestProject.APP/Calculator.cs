@@ -2,9 +2,9 @@
 {
     public class Calculator
     {
-        private CalculatorService _calculatorService { get; set; }
+        private ICalculatorService _calculatorService { get; set; }
 
-        public Calculator(CalculatorService calculatorService)
+        public Calculator(ICalculatorService calculatorService)
         {
             _calculatorService = calculatorService;
         }
